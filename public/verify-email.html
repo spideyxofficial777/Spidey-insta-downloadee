@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - SPIDEY OFFICIAL</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .verification-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 2rem;
+        }
+
+        .verification-card {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .verification-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .verification-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .verification-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .verification-message {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .verification-btn {
+            padding: 1rem 2rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .verification-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .verification-loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .success-message, .error-message {
+            display: none;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <div class="verification-card">
+            <div class="verification-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            
+            <h1 class="verification-title">Verify Your Email</h1>
+            
+            <p class="verification-message" id="verificationMessage">
+                Please wait while we verify your email address...
+            </p>
+
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <span id="successText"></span>
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText"></span>
+            </div>
+
+            <div class="verification-loading" id="loading">
+                <div class="spinner"></div>
+                <span>Verifying your email...</span>
+            </div>
+
+            <button class="verification-btn" id="continueBtn" style="display: none;">
+                <i class="fas fa-arrow-right"></i>
+                Continue to Login
+            </button>
+        </div>
+    </div>
+
+    <script>
+        class EmailVerification {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.verifyEmail();
+                this.setupEventListeners();
+            }
+
+            getUrlParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return {
+                    token: urlParams.get('token'),
+                    email: urlParams.get('email')
+                };
+            }
+
+            async verifyEmail() {
+                const { token, email } = this.getUrlParams();
+                
+                if (!token || !email) {
+                    this.showError('Invalid verification link. Please check your email and try again.');
+                    return;
+                }
+
+                this.showLoading();
+
+                try {
+                    const response = await fetch('/api/auth/verify-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ token, email })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        this.showSuccess(data.message);
+                    } else {
+                        throw new Error(data.error);
+                    }
+                } catch (error) {
+                    console.error('Verification error:', error);
+                    this.showError(error.message || 'Verification failed. Please try again.');
+                } finally {
+                    this.hideLoading();
+                }
+            }
+
+            showLoading() {
+                document.getElementById('loading').style.display = 'flex';
+                document.getElementById('verificationMessage').textContent = 'Verifying your email address...';
+            }
+
+            hideLoading() {
+                document.getElementById('loading').style.display = 'none';
+            }
+
+            showSuccess(message) {
+                document.getElementById('successText').textContent = message;
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('verificationMessage').textContent = 'Email verified successfully!';
+                document.getElementById('continueBtn').style.display = 'inline-flex';
+            }
+
+            showError(message) {
+                document.getElementById('errorText').textContent = message;
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('verificationMessage').textContent = 'Verification failed.';
+            }
+
+            setupEventListeners() {
+                document.getElementById('continueBtn').addEventListener('click', () => {
+                    window.location.href = '/';
+                });
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new EmailVerification();
+        });
+    </script>
+</body>
+</html>

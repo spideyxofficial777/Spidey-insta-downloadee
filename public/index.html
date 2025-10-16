@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPIDEY OFFICIAL - Advanced Instagram Downloader</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div id="particles-js"></div>
+    <div class="animated-grid"></div>
+    
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="spidey-loader">
+            <div class="spider-web">
+                <div class="spider"></div>
+            </div>
+            <h2>SPIDEY OFFICIAL</h2>
+            <p>Initializing advanced systems...</p>
+        </div>
+    </div>
+
+    <!-- Auth Modals -->
+    <div id="authModals">
+        <!-- Login Modal -->
+        <div id="loginModal" class="auth-modal hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2>Welcome Back</h2>
+                    <button class="close-auth">&times;</button>
+                </div>
+                <form id="loginForm" class="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="loginEmail" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <button type="submit" class="auth-btn">
+                        <span class="btn-text">SIGN IN</span>
+                        <div class="btn-loader">
+                            <div class="loader-dots">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" class="switch-auth" data-target="register">Sign Up</a></p>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Modal -->
+        <div id="registerModal" class="auth-modal hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2>Join SPIDEY OFFICIAL</h2>
+                    <button class="close-auth">&times;</button>
+                </div>
+                <form id="registerForm" class="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="registerName" placeholder="Full Name" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="registerEmail" placeholder="Email Address" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" placeholder="Password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerConfirmPassword" placeholder="Confirm Password" required>
+                    </div>
+                    <div class="terms-agreement">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    <button type="submit" class="auth-btn">
+                        <span class="btn-text">CREATE ACCOUNT</span>
+                        <div class="btn-loader">
+                            <div class="loader-dots">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                    </button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" class="switch-auth" data-target="login">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Modal -->
+        <div id="profileModal" class="auth-modal hidden">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2>My Profile</h2>
+                    <button class="close-auth">&times;</button>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="profileName">User Name</h3>
+                            <p id="profileEmail">user@example.com</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" id="profileDownloads">0</span>
+                            <span class="stat-label">Downloads</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="profileMemberSince">0</span>
+                            <span class="stat-label">Days</span>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="profile-action-btn" id="preferencesBtn">
+                            <i class="fas fa-cog"></i> Preferences
+                        </button>
+                        <button class="profile-action-btn" id="historyBtn">
+                            <i class="fas fa-history"></i> Download History
+                        </button>
+                        <button class="profile-action-btn logout" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo-container">
+                <div class="logo-spin">
+                    <i class="fas fa-spider"></i>
+                </div>
+                <h1 class="logo-text">
+                    <span class="logo-main">SPIDEY</span>
+                    <span class="logo-sub">OFFICIAL</span>
+                </h1>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#how-to-use" class="nav-link">How to Use</a>
+                <a href="#stats" class="nav-link">Stats</a>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="auth-btn-nav" id="loginBtn">Login</button>
+                    <button class="auth-btn-nav primary" id="registerBtn">Sign Up</button>
+                </div>
+                <div class="user-menu hidden" id="userMenu">
+                    <button class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <span class="user-greeting">Hello, <span id="userGreetingName">User</span></span>
+                        <button class="dropdown-item" id="profileBtn">
+                            <i class="fas fa-user-circle"></i> My Profile
+                        </button>
+                        <button class="dropdown-item" id="dropdownLogoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="hero-title">
+                        <span class="title-gradient">ADVANCED</span>
+                        <span class="title-main">INSTAGRAM DOWNLOADER</span>
+                    </h2>
+                    <p class="hero-description">
+                        Download <span class="highlight">Photos</span>, <span class="highlight">Videos</span>, 
+                        <span class="highlight">Reels</span>, and <span class="highlight">Stories</span> 
+                        with <span class="glow">SPIDEY OFFICIAL</span> - The most powerful Instagram downloader
+                    </p>
+                    
+                    <!-- Real-time Stats Bar -->
+                    <div class="live-stats-bar">
+                        <div class="stat-badge">
+                            <i class="fas fa-download"></i>
+                            <span><span id="liveTotalDownloads">0</span>+ Downloads Today</span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-users"></i>
+                            <span><span id="liveActiveUsers">0</span> Users Online</span>
+                        </div>
+                        <div class="stat-badge">
+                            <i class="fas fa-bolt"></i>
+                            <span><span id="liveSuccessRate">100</span>% Success Rate</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Download Card -->
+                <div class="download-card">
+                    <div class="card-header">
+                        <i class="fas fa-download pulse"></i>
+                        <h3>Download Media</h3>
+                        <div class="premium-badge" id="premiumBadge">
+                            <i class="fas fa-crown"></i>
+                            <span>Premium Features</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-container">
+                            <i class="fab fa-instagram input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="instagramUrl" 
+                                class="url-input" 
+                                placeholder="Paste Instagram URL here..."
+                                autocomplete="off"
+                            >
+                            <button class="clear-btn" id="clearBtn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <button id="downloadBtn" class="download-btn">
+                            <span class="btn-text">DOWNLOAD NOW</span>
+                            <div class="btn-loader">
+                                <div class="loader-dots">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Batch Download Option -->
+                    <div class="batch-option">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="batchMode">
+                            <span class="checkmark"></span>
+                            Enable Batch Download (Multiple URLs)
+                        </label>
+                        <div class="batch-inputs hidden" id="batchInputs">
+                            <textarea id="batchUrls" placeholder="Enter multiple Instagram URLs (one per line)"></textarea>
+                            <span class="batch-count">URLs: <span id="urlCount">0</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Examples -->
+                    <div class="quick-examples">
+                        <p class="examples-title">Try these examples:</p>
+                        <div class="example-chips">
+                            <button class="example-chip" data-url="https://instagram.com/p/example">
+                                <i class="fas fa-image"></i> Post
+                            </button>
+                            <button class="example-chip" data-url="https://instagram.com/reel/example">
+                                <i class="fas fa-film"></i> Reel
+                            </button>
+                            <button class="example-chip" data-url="https://instagram.com/stories/example">
+                                <i class="fas fa-history"></i> Story
+                            </button>
+                            <button class="example-chip" data-url="https://instagram.com/tv/example">
+                                <i class="fas fa-tv"></i> IGTV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section id="progressSection" class="progress-section hidden">
+            <div class="progress-card">
+                <div class="progress-header">
+                    <h3>Downloading Media</h3>
+                    <div class="progress-stats">
+                        <span id="progressText">Initializing...</span>
+                        <span class="progress-type" id="progressType">Single Download</span>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-percentage" id="progressPercentage">0%</div>
+                </div>
+                <div class="progress-details">
+                    <div class="detail-item">
+                        <i class="fas fa-link"></i>
+                        <span id="currentUrl">Processing URL...</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="timeElapsed">00:00</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-database"></i>
+                        <span id="itemsProcessed">0/0 Items</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="resultsSection" class="results-section hidden">
+            <div class="results-header">
+                <h3>Download Results</h3>
+                <div class="results-meta">
+                    <span id="resultsCount">0 items found</span>
+                    <span class="results-quality" id="resultsQuality">High Quality</span>
+                </div>
+                <div class="results-actions">
+                    <button id="downloadAllBtn" class="action-btn primary">
+                        <i class="fas fa-download"></i> Download All
+                    </button>
+                    <button id="selectAllBtn" class="action-btn">
+                        <i class="fas fa-check-square"></i> Select All
+                    </button>
+                    <button id="clearResultsBtn" class="action-btn secondary">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+            <div id="mediaGrid" class="media-grid"></div>
+            
+            <!-- Batch Results Summary -->
+            <div class="batch-summary hidden" id="batchSummary">
+                <div class="summary-card">
+                    <h4>Batch Download Summary</h4>
+                    <div class="summary-stats">
+                        <div class="summary-stat success">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Successful: <strong id="summarySuccess">0</strong></span>
+                        </div>
+                        <div class="summary-stat failed">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Failed: <strong id="summaryFailed">0</strong></span>
+                        </div>
+                        <div class="summary-stat total">
+                            <i class="fas fa-list"></i>
+                            <span>Total: <strong id="summaryTotal">0</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <h2 class="section-title">Why Choose SPIDEY OFFICIAL?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Download Instagram media at incredible speeds with our optimized servers and advanced caching</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>100% Secure</h3>
+                    <p>Military-grade encryption and no data storage. Your privacy is our top priority</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Unlimited Downloads</h3>
+                    <p>No restrictions on downloads. Premium users get priority processing</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Optimized</h3>
+                    <p>Progressive Web App that works perfectly on all devices and screen sizes</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-batch-symbol"></i>
+                    </div>
+                    <h3>Batch Download</h3>
+                    <p>Download multiple Instagram posts, reels, and stories simultaneously</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Advanced Analytics</h3>
+                    <p>Track your download history and get insights with user dashboard</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Use Section -->
+        <section id="how-to-use" class="how-to-section">
+            <h2 class="section-title">How to Use SPIDEY OFFICIAL</h2>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Copy Instagram URL</h3>
+                        <p>Go to Instagram and copy the link of the post, reel, or story you want to download</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Paste & Download</h3>
+                        <p>Paste the URL in the download box and click the download button</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Save Your Media</h3>
+                        <p>Choose the quality and format, then download your media files instantly</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="stats" class="stats-section">
+            <h2 class="section-title">Live Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalDownloads">0</div>
+                        <div class="stat-label">Total Downloads</div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="downloadsTrend">0% today</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="activeUsers">0</div>
+                        <div class="stat-label">Active Users</div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span id="usersTrend">0% today</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="serverUptime">100</div>
+                        <div class="stat-label">Server Uptime %</div>
+                        <div class="stat-trend stable">
+                            <i class="fas fa-minus"></i>
+                            <span>Stable</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="successRate">99.9</div>
+                        <div class="stat-label">Success Rate %</div>
+                        <div class="stat-trend up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Excellent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Global Downloads Counter -->
+        <div class="global-counter">
+            <div class="counter-container">
+                <i class="fas fa-globe-americas"></i>
+                <span>Worldwide Downloads: <strong id="globalDownloads">0</strong></span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo-container">
+                        <i class="fas fa-spider"></i>
+                        <span class="logo-text">SPIDEY OFFICIAL</span>
+                    </div>
+                    <p class="footer-description">
+                        The most advanced and powerful Instagram downloader on the web
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Product</h4>
+                        <a href="#" class="footer-link">Features</a>
+                        <a href="#" class="footer-link">Pricing</a>
+                        <a href="#" class="footer-link">API</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Support</h4>
+                        <a href="#" class="footer-link">Help Center</a>
+                        <a href="#" class="footer-link">Contact Us</a>
+                        <a href="#" class="footer-link">Status</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Legal</h4>
+                        <a href="#" class="footer-link">Privacy Policy</a>
+                        <a href="#" class="footer-link">Terms of Service</a>
+                        <a href="#" class="footer-link">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SPIDEY OFFICIAL. All rights reserved. | <span id="currentYear">2024</span></p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Enhanced Toast Notification System -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+<!-- In your HTML file, update the script section to this order: -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/ui-effects.js"></script>
+<script src="js/toast.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/downloader.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
